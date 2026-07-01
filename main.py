@@ -1,8 +1,21 @@
 import telebot
 import yt_dlp
 import os
+from flask import Flask
+from threading import Thread
 
-# Render environment variable se token uthayega
+# Render ke liye dummy website
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "Sukuna Music Bot is Active!"
+
+def run_flask():
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host='0.0.0.0', port=port)
+
+# Bot logic shuru
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 bot = telebot.TeleBot(BOT_TOKEN)
 
@@ -42,5 +55,9 @@ def download_and_send_audio(message):
         bot.edit_message_text(f"❌ Error aaya: {str(e)}", message.chat.id, status_msg.message_id)
 
 if __name__ == "__main__":
+    t = Thread(target=run_flask)
+    t.start()
+    
     print("Bot is running...")
     bot.infinity_polling()
+    
