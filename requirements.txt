@@ -1,3 +1,4 @@
 pyTelegramBotAPI
-yt-dlp
-flask
+yt_dlp
+Flask
+gunicorn
